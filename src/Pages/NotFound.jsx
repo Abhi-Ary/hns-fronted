@@ -4,7 +4,6 @@ import HomeLayout from "../Layouts/HomeLayout";
 function NotFound(){
     const navigate = useNavigate()
     return (
-        // <HomeLayout>
             <div className="h-screen w-full flex flex-col items-center justify-center bg-[#1A2238]">
                 <h1 className="text-9xl font-extrabold text-white tracking-widest">
                     404
@@ -20,7 +19,6 @@ function NotFound(){
                     </a>
                 </button>
             </div>
-        // </HomeLayout>
     )
 }
 export default NotFound;
