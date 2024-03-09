@@ -33,7 +33,7 @@ function HomeLayout(props) {
     }
 
     return (
-        <div className="min-h-[90vh]">
+        <div className="min-h-[90vh] bg-gray-900 text-white">
             <div className="drawer absolute left-0 z-50 w-fit">
                 <input className="drawer-toggle" id="my-drawer" type="checkbox" />
                 <div className="drawer-content">
@@ -47,15 +47,14 @@ function HomeLayout(props) {
                 </div>
                 <div className='drawer-side w-0'>
                     <label htmlFor="my-drawer" className='drawer-overlay'></label>
-                    <ul className="menu p-4 w-48 sm:w-80 bg-base-100 text-base-content relative">
+                    <ul className="menu p-4 w-48 h-[100%] sm:w-80 bg-gray-700 text-base-content relative text-white">
                         <li className='w-fit absolute right-2 z-50'>
                             <button onClick={hideDrawer}>
                                 <AiFillCloseCircle size={24} />
                             </button>
                         </li>
 
-                        
-                        <div className="flex flex-col space-y-2">
+                          <div className="flex flex-col space-y-2">
                             <li>
                                 <Link to="/">Home</Link>
                             </li>
@@ -74,9 +73,9 @@ function HomeLayout(props) {
                                 <Link to="/contact">Contact Us</Link>
                             </li>
 
-                            {/* <li>
+                            <li>
                                 <Link to="/about">About Us</Link>
-                            </li> */}
+                            </li>
 
                             {!isLoggedIn && (
                                 <li className="flex justify-center space-x-4">
