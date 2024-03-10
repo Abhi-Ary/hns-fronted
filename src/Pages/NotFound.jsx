@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import HomeLayout from "../Layouts/HomeLayout";
 
 function NotFound(){
     const navigate = useNavigate()

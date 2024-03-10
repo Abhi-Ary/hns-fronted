@@ -57,7 +57,7 @@ function HomeLayout(props) {
                             </button>
                         </li>
 
-                          <div className="flex flex-col space-y-2">
+                        <div className="flex flex-col space-y-2">
                             <li>
                                 <Link to="/">Home</Link>
                             </li>
@@ -79,33 +79,33 @@ function HomeLayout(props) {
                             <li>
                                 <Link to="/about">About Us</Link>
                             </li>
+                        </div>
 
+                        <div className="bottom-buttons mt-auto">
                             {!isLoggedIn && (
-                                <li className="flex justify-center space-x-4">
-                                    <div className="w-full flex items-center justify-center">
-                                        <button className='btn btn-primary px-8 py-4 font-semibold rounded-md'>
-                                            <Link to="/login">Login</Link>
-                                        </button>
-                                        <button className='btn btn-secondary px-8 py-4 font-semibold rounded-md'>
-                                            <Link to="/signup">Signup</Link>
-                                        </button>
-                                    </div>
-                                </li>
-                            )}
-
-                            {isLoggedIn && (
-                                <li className='flex justify-center space-x-4'>
-                                    <div className="w-full flex items-center justify-center">
-                                        <button className='btn btn-primary px-8 py-4 font-semibold rounded-md'>
-                                            <Link to="/user/profile">Profile</Link>
-                                        </button>
-                                        <button className='btn btn-secondary px-8 py-4 font-semibold rounded-md'>
-                                            <Link onClick={handleLogout}>Logout</Link>
-                                        </button>
-                                    </div>
-                                </li>
+                                <div className="flex justify-center space-x-4">
+                                    <button className='btn btn-primary px-8 py-4 font-semibold rounded-md'>
+                                        <Link to="/login">Login</Link>
+                                    </button>
+                                    <button className='btn btn-secondary px-8 py-4 font-semibold rounded-md'>
+                                        <Link to="/signup">Signup</Link>
+                                    </button>
+                                </div>
                             )}
                         </div>
+
+                        <div className="bottom-buttons mt-auto">
+                        {isLoggedIn && (
+                            <div className='flex justify-center space-x-4'>
+                                <button className='btn btn-primary px-8 py-4 font-semibold rounded-md'>
+                                    <Link to="/user/profile">Profile</Link>
+                                </button>
+                                <button className='btn btn-secondary px-8 py-4 font-semibold rounded-md'>
+                                    <Link onClick={handleLogout}>Logout</Link>
+                                </button>
+                            </div>
+                        )}
+                    </div>
                     </ul>
                 </div>
             </div>
