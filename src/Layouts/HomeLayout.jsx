@@ -1,8 +1,13 @@
 import { FiMenu } from 'react-icons/fi';
+
 import { AiFillCloseCircle } from 'react-icons/ai';
+
 import { Link, useNavigate } from 'react-router-dom';
+
 import Footer from '../Components/Footer';
+
 import { useDispatch, useSelector } from 'react-redux';
+
 import { logout } from '../Redux/Slices/AuthSlice';
 
 function HomeLayout(props) {
@@ -83,7 +88,7 @@ function HomeLayout(props) {
 
                         <div className="bottom-buttons mt-auto">
                             {!isLoggedIn && (
-                                <div className="flex justify-center space-x-4">
+                                <div className="flex justify-center space-x-12">
                                     <button className='btn btn-primary px-8 py-4 font-semibold rounded-md'>
                                         <Link to="/login">Login</Link>
                                     </button>
@@ -92,11 +97,9 @@ function HomeLayout(props) {
                                     </button>
                                 </div>
                             )}
-                        </div>
-
-                        <div className="bottom-buttons mt-auto">
+                        
                         {isLoggedIn && (
-                            <div className='flex justify-center space-x-4'>
+                            <div className='flex justify-center space-x-12'>
                                 <button className='btn btn-primary px-8 py-4 font-semibold rounded-md'>
                                     <Link to="/user/profile">Profile</Link>
                                 </button>
