@@ -21,6 +21,10 @@ function Signup(){
 
     const [previewImage, setPreviewImage] = useState("");
 
+    const [otp, setOtp] = useState("");
+
+
+
     const [signupData, setSignupData] = useState({
         officialName: "",
         governmentID: "",
@@ -60,6 +64,37 @@ function Signup(){
         }
     }
 
+    async function generateAndSendOTP() {
+        try {
+            // Generate a random OTP
+            const otp = Math.floor(1000 + Math.random() * 9000);
+
+            // Simulate sending OTP to the user's email (replace with actual API call)
+            const response = await fetch('/api/send-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: signupData.email,
+                    otp: otp
+                })
+            });
+
+            if (response.ok) {
+                // OTP sent successfully
+                toast.success("OTP has been sent to your email.");
+                setOtp(otp); // Store the generated OTP
+            } else {
+                // Error sending OTP
+                toast.error("Failed to send OTP. Please try again later.");
+            }
+        } catch (error) {
+            console.error("Error sending OTP:", error);
+            toast.error("An unexpected error occurred. Please try again later.");
+        }
+    }
+
     async function createNewAccount(event){
         event.preventDefault();
         if(!signupData.location || !signupData.phone || !signupData.governmentID || !signupData.email || !signupData.password || !signupData.officialName || !signupData.avatar)
@@ -67,6 +102,13 @@ function Signup(){
             toast.error("Please fill all the details");
             return;
         }
+
+        // Check if OTP is entered
+         if (!otp) {
+            toast.error("Please generate and enter OTP.");
+            return;
+        }
+
         // checking name field length
         if(signupData.officialName.length < 5){
             toast.error("Name should be atleast of 5 characters");
@@ -77,6 +119,7 @@ function Signup(){
             toast.error("Invalid email id");
             return;
         }
+
         // checking password validation
         if(!isValidPassword(signupData.password)){
             toast.error("Password length should be atleast 8 characters with atleast one uppercase and one lowercase and one digit and one special character");
@@ -93,6 +136,7 @@ function Signup(){
         formData.append("location", signupData.location);
         formData.append("descriptio", signupData.description);
         formData.append("avatar", signupData.avatar);
+        formData.append("otp", otp); // Send the entered OTP to the backend for verification
 
         // dispatch create account action
         const response = await dispatch(createAccount(formData));
@@ -112,7 +156,7 @@ function Signup(){
             avatar: ""
         });
         setPreviewImage("");
-
+        
     }
 
     return (
@@ -166,7 +210,7 @@ function Signup(){
                     </div>
 
                     <div className="flex flex-col gap-1">
-                            <label htmlFor="email" className="font-semibold"> Email </label>
+                            <label htmlFor="email" className="font-semibold"> Email: </label>
                             <input 
                                 type="email"
                                 required 
@@ -177,10 +221,29 @@ function Signup(){
                                 onChange={handleUserInput}
                                 value={signupData.email}
                             />
+                            
+                    </div>
+
+                    <div>
+                    <button type="button" onClick={generateAndSendOTP} className="bg-gray-500 text-white font-semibold px-3 py-1 rounded-md mt-2">Generate OTP</button>
                     </div>
 
                     <div className="flex flex-col gap-1">
-                            <label htmlFor="password" className="font-semibold"> Password </label>
+                            <label htmlFor="otp" className="font-semibold"> OTP: </label>
+                            <input 
+                                type="text"
+                                required 
+                                name="otp"
+                                id="otp"
+                                placeholder="Enter OTP.."
+                                className="bg-transparent px-2 py-1 border "
+                                value={otp}
+                                onChange={(e) => setOtp(e.target.value)}
+                            />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                            <label htmlFor="password" className="font-semibold"> Password: </label>
                             <input 
                                 type="password"
                                 required 

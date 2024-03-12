@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { data } from "autoprefixer";
 import toast from "react-hot-toast";
 import  axiosInstance  from "../../Helpers/axiosInstance";
 
