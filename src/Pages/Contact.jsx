@@ -116,6 +116,6 @@ function Contact(){
             </form>
             </div>
         </HomeLayout>
-    )
+    );
 }
 export default Contact;

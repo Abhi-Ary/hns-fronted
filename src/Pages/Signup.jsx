@@ -22,9 +22,14 @@ function Signup(){
     const [previewImage, setPreviewImage] = useState("");
 
     const [signupData, setSignupData] = useState({
-        fullName: "",
+        officialName: "",
+        governmentID: "",
         email: "", 
         password: "",
+        phone: "",
+        website: "",
+        location: "",
+        description: "",
         avatar: ""
     }); 
 
@@ -57,13 +62,13 @@ function Signup(){
 
     async function createNewAccount(event){
         event.preventDefault();
-        if(!signupData.email || !signupData.password || !signupData.fullName || !signupData.avatar)
+        if(!signupData.location || !signupData.phone || !signupData.governmentID || !signupData.email || !signupData.password || !signupData.officialName || !signupData.avatar)
         {
             toast.error("Please fill all the details");
             return;
         }
         // checking name field length
-        if(signupData.fullName.length < 5){
+        if(signupData.officialName.length < 5){
             toast.error("Name should be atleast of 5 characters");
             return;
         }
@@ -79,9 +84,14 @@ function Signup(){
         }
 
         const formData = new FormData();
-        formData.append("fullName", signupData.fullName);
+        formData.append("officialName", signupData.officialName);
+        formData.append("governmentID", signupData.governmentID);
         formData.append("email", signupData.email);
         formData.append("password", signupData.password);
+        formData.append("phone", signupData.phone);
+        formData.append("website", signupData.website);
+        formData.append("location", signupData.location);
+        formData.append("descriptio", signupData.description);
         formData.append("avatar", signupData.avatar);
 
         // dispatch create account action
@@ -91,9 +101,14 @@ function Signup(){
         navigate("/");
 
         setSignupData({
-            fullName: "",
+            officialName: "",
+            governmentID: "",
             email: "", 
             password: "",
+            phone: "",
+            website: "",
+            location: "",
+            description: "",
             avatar: ""
         });
         setPreviewImage("");
@@ -102,8 +117,8 @@ function Signup(){
 
     return (
         <HomeLayout>
-            <div className="flex itmes-center justify-center h-[90vh]">
-                <form noValidate onSubmit={createNewAccount} className="flex flex-col itmes-center gap-4 rounded-lg p-4 text-white w-96 shadow-[0_0_10px_black]">
+            <div className="flex itmes-center justify-center">
+                <form noValidate onSubmit={createNewAccount} className="flex flex-col m-8 itmes-center justify-center gap-2 rounded-lg p-5 text-white w-96 shadow-[0_0_10px_black]">
                     <h1 className="text-center text-2xl font-bold">Registration Page</h1>
 
                     <label htmlFor="image_uploads" className="cursor-pointer">
@@ -123,16 +138,30 @@ function Signup(){
                     />
 
                     <div className="flex flex-col gap-1">
-                            <label htmlFor="fullName" className="font-semibold"> Name </label>
+                            <label htmlFor="officialName" className="font-semibold"> Official Name: </label>
                             <input 
                                 type="text"
                                 required 
-                                name="fullName"
-                                id="fullName"
-                                placeholder="Enter your name.."
+                                name="officialName"
+                                id="officialName"
+                                placeholder="Enter official name.."
                                 className="bg-transparent px-2 py-1 border "
                                 onChange={handleUserInput}
-                                value={signupData.fullName}
+                                value={signupData.officialName}
+                            />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                            <label htmlFor="governmentID" className="font-semibold"> Government Issued Unique ID: </label>
+                            <input 
+                                type="text"
+                                required 
+                                name="governmentID"
+                                id="governmentID"
+                                placeholder="Enter id here.."
+                                className="bg-transparent px-2 py-1 border "
+                                onChange={handleUserInput}
+                                value={signupData.governmentID}
                             />
                     </div>
 
@@ -161,6 +190,60 @@ function Signup(){
                                 className="bg-transparent px-2 py-1 border "
                                 onChange={handleUserInput}
                                 value={signupData.password}
+                            />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                            <label htmlFor="phone" className="font-semibold"> Phone Number: </label>
+                            <input 
+                                type="tel"
+                                required 
+                                name="phone"
+                                id="phone"
+                                placeholder="Enter your phone number.."
+                                className="bg-transparent px-2 py-1 border "
+                                onChange={handleUserInput}
+                                pattern="[0-9]{10}"
+                                value={signupData.phone}
+                            />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                            <label htmlFor="website" className="font-semibold"> Website URL: </label>
+                            <input 
+                                type="text"
+                                name="website"
+                                id="website"
+                                placeholder="Enter your website url.."
+                                className="bg-transparent px-2 py-1 border "
+                                onChange={handleUserInput}
+                                value={signupData.website}
+                            />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                            <label htmlFor="location" className="font-semibold"> Location: </label>
+                            <input 
+                                type="text"
+                                required
+                                name="location"
+                                id="location"
+                                placeholder="Enter your location.."
+                                className="bg-transparent px-2 py-1 border "
+                                onChange={handleUserInput}
+                                value={signupData.location}
+                            />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                            <label htmlFor="description" className="font-semibold"> Description: </label>
+                            <textarea 
+                                name="description"
+                                id="description"
+                                placeholder="Enter your description.."
+                                className="bg-transparent px-2 py-1 border rounded-sm resize-none h-40 "
+                                onChange={handleUserInput}
+                                value={signupData.description}
                             />
                     </div>
 
