@@ -19,6 +19,25 @@ function Signup(){
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const [selectedOptions, setSelectedOptions] = useState({
+        serviceCategory: [],
+        specialisedService: [],
+        insurancePlan: [],
+        hospitalAffiliation: []
+    });
+
+    const handleOptionClick = (field, value) => {
+        // Check if the option is already selected, if so, remove it
+        const updatedOptions = selectedOptions[field].includes(value)
+            ? selectedOptions[field].filter(option => option !== value)
+            : [...selectedOptions[field], value];
+    
+        setSelectedOptions({
+            ...selectedOptions,
+            [field]: updatedOptions
+        });
+    };
+
     const [previewImage, setPreviewImage] = useState("");
 
     const [otp, setOtp] = useState("");
@@ -30,6 +49,7 @@ function Signup(){
         governmentID: "",
         email: "", 
         password: "",
+        confirmPassword: "",
         phone: "",
         website: "",
         location: "",
@@ -42,7 +62,13 @@ function Signup(){
         setSignupData({
             ...signupData,
             [name]: value
-        })
+        });
+         // Check if password confirmation matches
+            if (name === "confirmPassword") {
+                if (value !== signupData.password) {
+                    toast.error("Password confirmation does not match.");
+            }
+        }
     }
 
     function getImage(event){
@@ -103,6 +129,11 @@ function Signup(){
             return;
         }
 
+        if (!selectedOptions.serviceCategory || !selectedOptions.specialisedService || !selectedOptions.insurancePlan || !selectedOptions.hospitalAffiliation) {
+            toast.error("Please select all options.");
+            return;
+        }
+
         // Check if OTP is entered
          if (!otp) {
             toast.error("Please generate and enter OTP.");
@@ -134,7 +165,7 @@ function Signup(){
         formData.append("phone", signupData.phone);
         formData.append("website", signupData.website);
         formData.append("location", signupData.location);
-        formData.append("descriptio", signupData.description);
+        formData.append("description", signupData.description);
         formData.append("avatar", signupData.avatar);
         formData.append("otp", otp); // Send the entered OTP to the backend for verification
 
@@ -149,6 +180,7 @@ function Signup(){
             governmentID: "",
             email: "", 
             password: "",
+            confirmPassword: "",
             phone: "",
             website: "",
             location: "",
@@ -225,13 +257,13 @@ function Signup(){
                     </div>
 
                     <div>
-                    <button type="button" onClick={generateAndSendOTP} className="bg-gray-500 text-white font-semibold px-3 py-1 rounded-md mt-2">Generate OTP</button>
+                    <button type="button" onClick={generateAndSendOTP} className="bg-yellow-600 hover:bg-yellow-500 cursor-pointer text-white text-lg font-semibold px-3 py-1 rounded-md mt-2">Generate OTP</button>
                     </div>
 
                     <div className="flex flex-col gap-1">
                             <label htmlFor="otp" className="font-semibold"> OTP: </label>
                             <input 
-                                type="text"
+                                type="number"
                                 required 
                                 name="otp"
                                 id="otp"
@@ -253,6 +285,20 @@ function Signup(){
                                 className="bg-transparent px-2 py-1 border "
                                 onChange={handleUserInput}
                                 value={signupData.password}
+                            />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                            <label htmlFor="confirmPassword" className="font-semibold"> Confirm Password: </label>
+                            <input 
+                                type="password"
+                                required 
+                                name="confirmPassword"
+                                id="confirmPassword"
+                                placeholder="Confirm your password.."
+                                className="bg-transparent px-2 py-1 border "
+                                onChange={handleUserInput}
+                                value={signupData.confirmPassword}
                             />
                     </div>
 
@@ -296,6 +342,82 @@ function Signup(){
                                 onChange={handleUserInput}
                                 value={signupData.location}
                             />
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="serviceCategory" className="font-semibold">Service Category:</label>
+                        <select
+                            name="serviceCategory"
+                            id="serviceCategory"
+                            className="bg-transparent px-2 py-1 border"
+                            multiple
+                            value={selectedOptions.serviceCategory}
+                            onClick={(e) => handleOptionClick("serviceCategory", e.target.value)}
+                        >
+                            <option value="Cardiology">Cardiology</option>
+                            <option value="Orthopedics">Orthopedics</option>
+                            <option value="Neurology">Neurology</option>
+                            <option value="Gynecology">Gynecology</option>
+                            <option value="Pediatrics">Pediatrics</option>
+                            <option value="Oncology">Oncology</option>
+                            <option value="Urology">Urology</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="specialisedService" className="font-semibold">Specialised Service:</label>
+                        <select
+                            name="specialisedService"
+                            id="specialisedService"
+                            className="bg-transparent px-2 py-1 border"
+                            multiple
+                            value={selectedOptions.specialisedService}
+                            onClick={(e) => handleOptionClick("specialisedService", e.target.value)}
+                        >
+                            <option value="Robotic Surgery">Robotic Surgery</option>
+                            <option value="Intensive Care Unit">Intensive Care Unit</option>
+                            <option value="Emergency Services">Emergency Services</option>
+                            <option value="Diagnostic Imaaging">Diagnostic Imaaging</option>
+                            <option value="Physical Therapy">Physical Therapy</option>
+                            <option value="Dialysis Center">Dialysis Center</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="insurancePlan" className="font-semibold">Insurance Plan:</label>
+                        <select
+                            name="insurancePlan"
+                            id="insurancePlan"
+                            className="bg-transparent px-2 py-1 border"
+                            multiple
+                            value={selectedOptions.insurancePlan}
+                            onClick={(e) => handleOptionClick("insurancePlan", e.target.value)}
+                        >
+                            <option value="Basic Health Insurance">Basic Health Insurance</option>
+                            <option value="Family Health Insurance">Family Health Insurance</option>
+                            <option value="Senior Citizen Health Insurance">Senior Citizen Health Insurance</option>
+                            <option value="Maternity Insurance">Maternity Insurance</option>
+                            <option value="Personal Accident Insurance">Personal Accident Insurance</option>
+                            <option value="Travel Health Insurance">Travel Health Insurance</option>
+                        </select>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                        <label htmlFor="hospitalAffiliation" className="font-semibold">Hospital Affiliation:</label>
+                        <select
+                            name="hospitalAffiliation"
+                            id="hospitalAffiliation"
+                            className="bg-transparent px-2 py-1 border"
+                            multiple
+                            value={selectedOptions.hospitalAffiliation}
+                            onClick={(e) => handleOptionClick("hospitalAffiliation", e.target.value)}
+                        >
+                            <option value="Health System">Health System</option>
+                            <option value="Insurance Networks">Insurance Networks</option>
+                            <option value="Specialty Organizations">Specialty Organizations</option>
+                            <option value="Government Programs">Government Programs</option>
+                            <option value="Medical University">Medical University</option>
+                        </select>
                     </div>
 
                     <div className="flex flex-col gap-1">
